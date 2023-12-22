@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.Console", "Gible.Console\Gible.Console.csproj", "{CACBDDAD-E95A-4646-99B4-66DB167CE86F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.Console", "Gible.Console\Gible.Console.csproj", "{CACBDDAD-E95A-4646-99B4-66DB167CE86F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Executables", "Executables", "{486B46E6-B78E-4B12-8E24-73EA1537FDB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.Domain", "Gible.Domain\Gible.Domain.csproj", "{D8871D47-4BCC-4E35-9202-9D1910D25124}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.Domain", "Gible.Domain\Gible.Domain.csproj", "{D8871D47-4BCC-4E35-9202-9D1910D25124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.Tech", "Gible.Tech\Gible.Tech.csproj", "{1922817B-DA1D-4E18-BDEF-AF8513E383B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.Tech", "Gible.Tech\Gible.Tech.csproj", "{1922817B-DA1D-4E18-BDEF-AF8513E383B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.WPF", "Gible.WPF\Gible.WPF.csproj", "{9487738C-7901-4A23-9127-C6F665FD3C3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.WPF", "Gible.WPF\Gible.WPF.csproj", "{9487738C-7901-4A23-9127-C6F665FD3C3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.Web", "Gible.Web\Gible.Web.csproj", "{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{9487738C-7901-4A23-9127-C6F665FD3C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9487738C-7901-4A23-9127-C6F665FD3C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9487738C-7901-4A23-9127-C6F665FD3C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CACBDDAD-E95A-4646-99B4-66DB167CE86F} = {486B46E6-B78E-4B12-8E24-73EA1537FDB0}
 		{9487738C-7901-4A23-9127-C6F665FD3C3A} = {486B46E6-B78E-4B12-8E24-73EA1537FDB0}
+		{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7} = {486B46E6-B78E-4B12-8E24-73EA1537FDB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D672F8CC-DC10-481A-9BE3-653ECCF73A7D}
