@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Gible.Domain.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace Gible.WPF
@@ -19,7 +20,10 @@ namespace Gible.WPF
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.InjectAll();
+            services
+                .InjectAll()
+                .InjectWpf()
+                ;
 
             services.AddSingleton<MainWindow>();
         }
