@@ -1,0 +1,40 @@
+﻿@page "/recipe/{RecipeKey}"
+@rendermode InteractiveServer
+@using Gible.Domain.Commands
+@using Gible.Domain.Models
+@using Knox.Mediation
+@using Gible.Domain.Queries
+
+<h3>@Recipe.Name</h3>
+@foreach (var image in Recipe.Images)
+{
+    <img src="@image" />
+}
+
+@foreach (var tag in Recipe.Tags)
+{
+    <p>@tag</p>
+}
+
+<button class="btn btn-primary" @onclick="Injest">Injest</button>
+
+
+@code {
+    [Parameter]
+    public string? RecipeKey { get; set; } = Guid.Empty.ToString();
+
+    public Recipe Recipe { get; private set; } = Recipe.Empty;
+
+    [Inject]
+    private IMediator Mediator { get; set; } = default!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Recipe = await Mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
+    }
+
+    public async Task Injest()
+    {
+        await Mediator.ExecuteCommandAsync<IngestRecipesCommand>(new IngestRecipesCommand("C:\\Recipes", ""));
+    }
+}

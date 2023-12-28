@@ -45,6 +45,7 @@ namespace Gible.Domain.DependencyInjection
             services
                 .AddTransient<ICommandHandler<UpdateRecipeTagCommand>, UpdateRecipeTagCommandHandler>()
                 .AddTransient<ICommandHandler<ExportSelectedRecipesCommand>, ExportSelectedRecipesCommandHandler>()
+                .AddTransient<ICommandHandler<IngestRecipesCommand>, InjestRecipesCommandHandler>()
                 ;
 
             return services;
@@ -70,6 +71,7 @@ namespace Gible.Domain.DependencyInjection
                 mediator
                     .Register(provider.GetRequiredService<ICommandHandler<UpdateRecipeTagCommand>>())
                     .Register(provider.GetRequiredService<ICommandHandler<ExportSelectedRecipesCommand>>())
+                    .Register(provider.GetRequiredService<ICommandHandler<IngestRecipesCommand>>())
 
                     .Register(provider.GetRequiredService<IQueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>>())
                     .Register(provider.GetRequiredService<IQueryHandler<GetFirstUserQuery, Gift<User>>>())
