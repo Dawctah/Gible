@@ -1,0 +1,25 @@
+@page "/admin"
+@rendermode InteractiveServer
+@using Knox.Mediation;
+@using Gible.Domain.Commands;
+
+<h1>Admin</h1>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary" @onclick="IngestRecipes">Ingest Recipes</button>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public IMediator Mediator { get; private set; } = default!;
+
+    public async Task IngestRecipes()
+    {
+        var output = "C:\\Users\\noahg\\source\\repos\\Gible\\Gible.Web\\bin\\Release\\net8.0\\publish\\wwwroot\\Processed";
+#if DEBUG
+        output = "C:\\Users\\noahg\\source\\repos\\Gible\\Gible.Web\\wwwroot\\Processed";
+#endif
+        await Mediator.ExecuteCommandAsync(new IngestRecipesCommand("C:\\Recipes", output));
+    }
+}
