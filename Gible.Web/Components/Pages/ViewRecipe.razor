@@ -16,9 +16,6 @@
     <p>@tag</p>
 }
 
-<button class="btn btn-primary" @onclick="Injest">Injest</button>
-
-
 @code {
     [Parameter]
     public string? RecipeKey { get; set; } = Guid.Empty.ToString();
@@ -31,10 +28,5 @@
     protected async override Task OnInitializedAsync()
     {
         Recipe = await Mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
-    }
-
-    public async Task Injest()
-    {
-        await Mediator.ExecuteCommandAsync<IngestRecipesCommand>(new IngestRecipesCommand("C:\\Recipes", ""));
     }
 }

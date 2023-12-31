@@ -19,14 +19,9 @@ namespace Gible.Domain.Commands
         public async Task ExecuteAsync(IngestRecipesCommand command)
         {
             // Get the recipes based off the images in the ingest folder.
-            // Copy the images into the processed folder.
-            // Delete the original images.
-
-            throw new NotImplementedException("Command is not yet complete.");
-
             var filePaths = Directory.GetFiles(command.InputDirectory, "*.jpg");
             var recipes = new List<Recipe>();
-            var nameSections = new Dictionary<string, List<string>>();
+            var nameSections = new Dictionary<string, (List<string> input, List<string> output)>();
             foreach (var file in filePaths)
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -42,7 +37,7 @@ namespace Gible.Domain.Commands
 
                 try
                 {
-                    nameSections.Add(nameSanitized, []);
+                    nameSections.Add(nameSanitized, ([], []));
                 }
                 catch
                 {
@@ -50,20 +45,34 @@ namespace Gible.Domain.Commands
                 }
                 finally
                 {
-                    nameSections[nameSanitized].Add(file);
+                    nameSections[nameSanitized].input.Add(file);
+                    nameSections[nameSanitized].output.Add(file.Replace(command.InputDirectory, command.OutputDirectory));
                 }
             }
 
             // Create recipe.
-            foreach (var (recipeName, images) in nameSections)
+            foreach (var (recipeName, (input, output)) in nameSections)
             {
+                // Remove everything up until wwwroot so the server knows what folder to pull from.
+                var finalOutput = output.Select(value => value[(value.IndexOf("Processed"))..]);
+
                 var recipe = Recipe.Default with
                 {
                     Name = recipeName,
-                    Images = images,
+                    Images = finalOutput,
                 };
 
                 recipes.Add(recipe);
+            }
+
+            // Move input images into output folder.
+            foreach (var (x, (input, output)) in nameSections)
+            {
+                for (var index = 0; index < input.Count; index++)
+                {
+                    File.Copy(input[index], output[index], true);
+                    File.Delete(input[index]);
+                }
             }
 
             // Now we enter the recipes into the database.
