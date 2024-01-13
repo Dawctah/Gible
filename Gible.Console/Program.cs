@@ -20,7 +20,7 @@ var searchTagsQueryHandler = new GetRecipesWithTagsQueryHandler(recipeRepository
 var commands = new List<IConsoleCommand>()
 {
     new InitializeRecipesConsoleCommand(new InitializeRecipesCommandHandler(recipeRepository), applicationSettings),
-    new UpdateRecipeTagConsoleCommand(new UpdateRecipeTagCommandHandler(recipeRepository, userRepository), recipeRepository, userRepository),
+    new UpdateRecipeTagConsoleCommand(new UpdateRecipeTagCommandHandler(recipeRepository), recipeRepository, userRepository),
     new RegisterUserConsoleCommand(userRepository),
     new SearchByTagsConsoleCommand(searchTagsQueryHandler)
 };
@@ -77,21 +77,21 @@ while (running)
             }
             break;
     }
+}
 
-    static void WriteError(string error) => WriteLine(error, ConsoleColor.Red);
-    static void WriteSuccess(string success) => WriteLine(success, ConsoleColor.DarkGreen);
+static void WriteError(string error) => WriteLine(error, ConsoleColor.Red);
+static void WriteSuccess(string success) => WriteLine(success, ConsoleColor.DarkGreen);
 
-    static void WriteLine(string line = "", ConsoleColor color = ConsoleColor.Gray)
-    {
-        Console.ForegroundColor = color;
-        Console.WriteLine(line);
-        Console.ResetColor();
-    }
+static void WriteLine(string line = "", ConsoleColor color = ConsoleColor.Gray)
+{
+    Console.ForegroundColor = color;
+    Console.WriteLine(line);
+    Console.ResetColor();
+}
 
-    static void Write(string line, ConsoleColor color = ConsoleColor.Gray)
-    {
-        Console.ForegroundColor = color;
-        Console.Write(line);
-        Console.ResetColor();
-    }
+static void Write(string line, ConsoleColor color = ConsoleColor.Gray)
+{
+    Console.ForegroundColor = color;
+    Console.Write(line);
+    Console.ResetColor();
 }

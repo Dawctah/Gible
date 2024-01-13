@@ -43,9 +43,10 @@ namespace Gible.Domain.DependencyInjection
         public static IServiceCollection InjectCommands(this IServiceCollection services)
         {
             services
-                .AddTransient<ICommandHandler<UpdateRecipeTagCommand>, UpdateRecipeTagCommandHandler>()
+                .AddTransient<ICommandHandler<AddRecipeTagsCommand>, UpdateRecipeTagCommandHandler>()
                 .AddTransient<ICommandHandler<ExportSelectedRecipesCommand>, ExportSelectedRecipesCommandHandler>()
                 .AddTransient<ICommandHandler<IngestRecipesCommand>, InjestRecipesCommandHandler>()
+                .AddTransient<ICommandHandler<DeleteRecipeTagCommand>, DeleteRecipeTagCommandHandler>()
                 ;
 
             return services;
@@ -69,9 +70,10 @@ namespace Gible.Domain.DependencyInjection
             {
                 var mediator = new Mediator();
                 mediator
-                    .Register(provider.GetRequiredService<ICommandHandler<UpdateRecipeTagCommand>>())
+                    .Register(provider.GetRequiredService<ICommandHandler<AddRecipeTagsCommand>>())
                     .Register(provider.GetRequiredService<ICommandHandler<ExportSelectedRecipesCommand>>())
                     .Register(provider.GetRequiredService<ICommandHandler<IngestRecipesCommand>>())
+                    .Register(provider.GetRequiredService<ICommandHandler<DeleteRecipeTagCommand>>())
 
                     .Register(provider.GetRequiredService<IQueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>>())
                     .Register(provider.GetRequiredService<IQueryHandler<GetFirstUserQuery, Gift<User>>>())

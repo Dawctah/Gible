@@ -4,16 +4,55 @@
 @using Gible.Domain.Models
 @using Knox.Mediation
 @using Gible.Domain.Queries
+@using System.Text
+@inject IMediator mediator;
 
 <h3>@Recipe.Name</h3>
+
+<div class="row">
+    <div class="col">
+        <p>Enter new tags for this recipe. Multiple tags can be added by separating them with a comma.</p>
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <InputText class="form-control" @bind-Value="EnteredTags"></InputText>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-primary" @onclick="@AddTags">Add Tags</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3>Tags</h3>
+    </div>
+</div>
+<div class="row">
+    @if (!Recipe.Tags.Any())
+    {
+        <p>None</p>
+    }
+
+    @foreach(var tag in Recipe.Tags)
+    {
+        <div class="col-2 mb-2 d-flex justify-content-center">
+                <button class="w-100 btn btn-outline-danger" @onclick="() => DeleteTagAsync(tag)" >
+                    @tag
+                    <img src="/bootstrap/Icons/trash3.svg" alt="Delete" />
+                </button>
+        </div>
+    }
+</div>
+
+
 @foreach (var image in Recipe.Images)
 {
-    <img src="@image" />
-}
-
-@foreach (var tag in Recipe.Tags)
-{
-    <p>@tag</p>
+<div class="row">
+    <div class="col">
+        <img src="@image" class="w-100" />
+    </div>
+</div>
 }
 
 @code {
@@ -21,12 +60,53 @@
     public string? RecipeKey { get; set; } = Guid.Empty.ToString();
 
     public Recipe Recipe { get; private set; } = Recipe.Empty;
+    public string Tags
+    {
+        get
+        {
+            var result = new StringBuilder();
+            foreach (var tag in Recipe.Tags)
+            {
+                result.Append(tag);
 
-    [Inject]
-    private IMediator Mediator { get; set; } = default!;
+                if (tag != Recipe.Tags.Last())
+                {
+                    result.Append(", ");
+                }
+            }
+
+            return result.ToString();
+        }
+    }
+
+    public string EnteredTags { get; set; } = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
-        Recipe = await Mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
+        await LoadPropertiesAsync();
+    }
+
+    public async Task AddTags()
+    {
+        var tags = EnteredTags.Split(",");
+        EnteredTags = string.Empty;
+        await mediator.ExecuteCommandAsync(new AddRecipeTagsCommand(Recipe.Key, string.Empty, tags));
+
+        await LoadPropertiesAsync();
+    }
+
+    public async Task DeleteTagAsync(string tag)
+    {
+        await mediator.ExecuteCommandAsync(new DeleteRecipeTagCommand(Recipe.Key, tag));
+        await LoadPropertiesAsync();
+    }
+
+    private async Task LoadPropertiesAsync()
+    {
+        Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
     }
 }
+
+<script>
+
+</script>
