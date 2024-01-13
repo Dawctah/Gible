@@ -5,34 +5,52 @@
 @using Gible.Domain.Queries
 @using Knox.Monads
 @using Knox.Extensions
+@inject IMediator mediator
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Dashboard</h1>
+<p class="small">Coming soon</p>
 
-@foreach (var (key, name) in Recipes)
+<div class="row">
+    <div class="col">
+        <p>Search for recipe tags. Separate tags with a comma.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <InputText class="form-control" @bind-Value="SearchQuery"></InputText>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-primary" @onclick="@SearchRecipes">Search</button>
+    </div>
+</div>
+
+@foreach (var recipe in Recipes)
 {
-    <a class="btn btn-link" href="/recipe/@key">@name</a>
+    <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
 }
 
 
 @code{
-    public string MyString { get; private set; } = ":wooloo:";
-
-    [Inject]
-    protected IMediator Mediator { get; set; } = default!;
-
-    public IEnumerable<(string key, string name)> Recipes { get; private set; } = [];
-
-    private async Task DoThing()
-    {
-        var result = await Mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new GetRecipesWithTagsQuery(new List<string>(){ "Onion" }));
-        MyString = result.WrapFirst().UnwrapOrExchange(Recipe.Default).Name;
-    }
+    public IEnumerable<Recipe> Recipes { get; private set; } = [];
+    public string SearchQuery { get; set; } = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
-        var result = await Mediator.RequestResponseAsync<GetAllRecipesQuery, IEnumerable<Recipe>>(new GetAllRecipesQuery());
-        Recipes = result.Select(recipe => (recipe.Key, recipe.Name));
+        Recipes = await mediator.RequestResponseAsync<GetAllRecipesQuery, IEnumerable<Recipe>>(new GetAllRecipesQuery());
+    }
+
+    public async Task SearchRecipes()
+    {
+        var tags = new List<string>();
+        foreach (var tag in SearchQuery.Split(","))
+        {
+            tags.Add(tag.Trim());
+        }
+
+        SearchQuery = string.Empty;
+
+        Recipes = await mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
     }
 }
