@@ -77,21 +77,21 @@ while (running)
             }
             break;
     }
+}
 
-    static void WriteError(string error) => WriteLine(error, ConsoleColor.Red);
-    static void WriteSuccess(string success) => WriteLine(success, ConsoleColor.DarkGreen);
+static void WriteError(string error) => WriteLine(error, ConsoleColor.Red);
+static void WriteSuccess(string success) => WriteLine(success, ConsoleColor.DarkGreen);
 
-    static void WriteLine(string line = "", ConsoleColor color = ConsoleColor.Gray)
-    {
-        Console.ForegroundColor = color;
-        Console.WriteLine(line);
-        Console.ResetColor();
-    }
+static void WriteLine(string line = "", ConsoleColor color = ConsoleColor.Gray)
+{
+    Console.ForegroundColor = color;
+    Console.WriteLine(line);
+    Console.ResetColor();
+}
 
-    static void Write(string line, ConsoleColor color = ConsoleColor.Gray)
-    {
-        Console.ForegroundColor = color;
-        Console.Write(line);
-        Console.ResetColor();
-    }
+static void Write(string line, ConsoleColor color = ConsoleColor.Gray)
+{
+    Console.ForegroundColor = color;
+    Console.Write(line);
+    Console.ResetColor();
 }

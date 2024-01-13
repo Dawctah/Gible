@@ -18,15 +18,15 @@ namespace Gible.Domain.Commands
         public async Task ExecuteAsync(UpdateRecipeTagCommand command)
         {
             var recipe = recipeRepository.GetResult(command.RecipeKey);
-            var userName = new List<string>() { userRepository.GetResult(command.UserKey).Name };
+            // var userName = new List<string>() { userRepository.GetResult(command.UserKey).Name };
 
             var tags = recipe.Tags.Union(command.Tags);
-            var contributors = recipe.Contributors.Union(userName);
+            // var contributors = recipe.Contributors.Union(userName);
 
             var updatedRecipe = recipe with
             {
                 Tags = tags,
-                Contributors = contributors,
+                // Contributors = contributors,
             };
 
             await recipeRepository.UpdateAsync(updatedRecipe);
