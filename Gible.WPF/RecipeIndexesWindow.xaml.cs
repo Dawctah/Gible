@@ -57,7 +57,7 @@ namespace Gible.WPF
                 return;
             }
 
-            await mediator.ExecuteCommandAsync(new UpdateRecipeTagCommand(Recipe.Key, user.Key, AddIndexTextBox.Text));
+            await mediator.ExecuteCommandAsync(new AddRecipeTagsCommand(Recipe.Key, user.Key, AddIndexTextBox.Text));
 
             Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new(recipe.Key));
         }

@@ -20,7 +20,7 @@ var searchTagsQueryHandler = new GetRecipesWithTagsQueryHandler(recipeRepository
 var commands = new List<IConsoleCommand>()
 {
     new InitializeRecipesConsoleCommand(new InitializeRecipesCommandHandler(recipeRepository), applicationSettings),
-    new UpdateRecipeTagConsoleCommand(new UpdateRecipeTagCommandHandler(recipeRepository, userRepository), recipeRepository, userRepository),
+    new UpdateRecipeTagConsoleCommand(new UpdateRecipeTagCommandHandler(recipeRepository), recipeRepository, userRepository),
     new RegisterUserConsoleCommand(userRepository),
     new SearchByTagsConsoleCommand(searchTagsQueryHandler)
 };

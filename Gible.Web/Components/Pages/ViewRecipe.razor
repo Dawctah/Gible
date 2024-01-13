@@ -36,8 +36,11 @@
 
     @foreach(var tag in Recipe.Tags)
     {
-        <div class="col-2 border">
-            <p class="d-flex justify-content-center my-3">@tag</p>
+        <div class="col-2 d-flex justify-content-center">
+                <button class="btn btn-outline-danger" @onclick="() => DeleteTagAsync(tag)" >
+                    @tag
+                    <img src="/bootstrap/Icons/trash3.svg" alt="Delete" />
+                </button>
         </div>
     }
 </div>
@@ -80,17 +83,27 @@
 
     protected async override Task OnInitializedAsync()
     {
-        Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
+        await LoadPropertiesAsync();
     }
 
     public async Task AddTags()
     {
         var tags = EnteredTags.Split(",");
         EnteredTags = string.Empty;
-        await mediator.ExecuteCommandAsync(new UpdateRecipeTagCommand(Recipe.Key, string.Empty, tags));
+        await mediator.ExecuteCommandAsync(new AddRecipeTagsCommand(Recipe.Key, string.Empty, tags));
 
-        // Requery.
-        await OnInitializedAsync();
+        await LoadPropertiesAsync();
+    }
+
+    public async Task DeleteTagAsync(string tag)
+    {
+        await mediator.ExecuteCommandAsync(new DeleteRecipeTagCommand(Recipe.Key, tag));
+        await LoadPropertiesAsync();
+    }
+
+    private async Task LoadPropertiesAsync()
+    {
+        Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
     }
 }
 

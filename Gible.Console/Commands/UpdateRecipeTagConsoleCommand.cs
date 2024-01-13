@@ -25,7 +25,7 @@ namespace Gible.Console.Commands
                 tags.Add(context.Arguments[index]);
             }
 
-            var command = new UpdateRecipeTagCommand(context.Arguments[1], userKey, tags);
+            var command = new AddRecipeTagsCommand(context.Arguments[1], userKey, tags);
             await commandHandler.ExecuteAsync(command);
         }
 
