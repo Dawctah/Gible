@@ -15,7 +15,10 @@ namespace Gible.Web
                 .AddInteractiveServerComponents()
                 ;
 
-            builder.Services.InjectAll();
+            builder.Services
+                .InjectAll()
+                .InjectWeb()
+                ;
 
             var app = builder.Build();
 

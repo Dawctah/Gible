@@ -21,7 +21,7 @@ namespace Gible.Console.Commands
 
             var user = User.Default with
             {
-                Name = name.ToString().Trim()
+                FirstName = name.ToString().Trim()
             };
 
             await userRepository.InsertAsync(user);

@@ -1,0 +1,55 @@
+﻿@page "/register"
+@using Knox.Mediation
+@using Knox.Security
+@rendermode InteractiveServer
+@inject IMediator mediator
+@inject IKnoxHasher knoxHasher
+
+<PageTitle>Register</PageTitle>
+
+<h3>Register as a new user:</h3>
+
+<div class="form-row">
+    <div class="col my-2">
+        <InputText placeholder="First Name" class="form-control" @bind-Value="FirstName" />
+    </div>
+    <div class="col my-2">
+        <InputText placeholder="Last Name" class="form-control" @bind-Value="LastName" />
+    </div>
+
+</div>
+
+<div class="form-group my-2">
+    <InputText placeholder="Email" class="form-control" @bind-Value="Email" id="email-input" />
+    <small class="form-text">Gible does not send you emails, it is for logging in only.</small>
+</div>
+
+<div class="form-row my-2">
+    <InputText placeholder="Password" class="form-control" @bind-Value="Password" />
+</div>
+
+<div class="row my-2">
+    <div class="col">
+        <button class="btn btn-outline-success" @onclick="RegisterUser">Sign Up</button>
+    </div>
+</div>
+
+
+@code {
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+
+    public async Task RegisterUser()
+    {
+        // Hash password.
+        var passwordHash = knoxHasher.HashPassword(Password);
+
+        // Verify email.
+        var mailAddress = new System.Net.Mail.MailAddress(Email);
+
+        // Check if that username already exists.
+    }
+}

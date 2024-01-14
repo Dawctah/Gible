@@ -8,7 +8,14 @@ namespace Gible.Domain.Models
         public static User Empty { get; } = new();
         public static User Default { get; } = Empty;
 
-        public string Name { get; init; } = string.Empty;
+        public string FirstName { get; init; } = string.Empty;
+        public string LastName { get; init; } = string.Empty;
+        public string Email { get; init; } = string.Empty;
+        public string PasswordHash { get; init; } = string.Empty;
+
+        public IEnumerable<string> RecentlyViewedRecipeKeys { get; init; } = [];
+
+        public bool IsAdmin { get; init; } = false;
 
         public override ValidationResult IsValid()
         {

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.Tech", "Gible.Tech\Gi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.WPF", "Gible.WPF\Gible.WPF.csproj", "{9487738C-7901-4A23-9127-C6F665FD3C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gible.Web", "Gible.Web\Gible.Web.csproj", "{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gible.Web", "Gible.Web\Gible.Web.csproj", "{482B5DEB-5D77-4538-BDFC-4B9C7E537FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
