@@ -6,7 +6,10 @@ namespace Gible.Domain.Models
     public record User : AggregateRoot
     {
         public static User Empty { get; } = new();
-        public static User Default { get; } = Empty;
+        public static User Default { get; } = Empty with
+        {
+            Role = UserRole.CheesePizza
+        };
 
         public string FirstName { get; init; } = string.Empty;
         public string LastName { get; init; } = string.Empty;
@@ -15,7 +18,7 @@ namespace Gible.Domain.Models
 
         public IEnumerable<string> RecentlyViewedRecipeKeys { get; init; } = [];
 
-        public bool IsAdmin { get; init; } = false;
+        public UserRole Role { get; init; } = UserRole.Unknown;
 
         public override ValidationResult IsValid()
         {
@@ -26,5 +29,20 @@ namespace Gible.Domain.Models
         {
             throw new NotImplementedException();
         }
+    }
+
+    public enum UserRole
+    {
+        Unknown,
+
+        /// <summary>
+        /// User is an administrator and has full access to Gible.
+        /// </summary>
+        Admin,
+
+        /// <summary>
+        /// User has nothing special. They are cheese pizza. Still good though.
+        /// </summary>
+        CheesePizza
     }
 }

@@ -17,7 +17,6 @@ namespace Gible.Web
 
             builder.Services
                 .InjectAll()
-                .InjectWeb()
                 ;
 
             var app = builder.Build();

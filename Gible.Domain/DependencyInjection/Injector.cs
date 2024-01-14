@@ -9,6 +9,7 @@ using Knox.Commanding;
 using Knox.Mediation;
 using Knox.Monads;
 using Knox.Querying;
+using Knox.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gible.Domain.DependencyInjection
@@ -21,6 +22,7 @@ namespace Gible.Domain.DependencyInjection
                 .AddTransient<IApplicationSettings, ApplicationSettings>()
                 .AddTransient<IMongoClientHandler, MongoClientHandler>()
                 .AddTransient<IPdfExporter, PdfExporter>()
+                .AddTransient<IKnoxHasher, KnoxHasher>()
                 .InjectRepositories()
                 .InjectCommands()
                 .InjectQueries()
@@ -47,6 +49,7 @@ namespace Gible.Domain.DependencyInjection
                 .AddTransient<ICommandHandler<ExportSelectedRecipesCommand>, ExportSelectedRecipesCommandHandler>()
                 .AddTransient<ICommandHandler<IngestRecipesCommand>, InjestRecipesCommandHandler>()
                 .AddTransient<ICommandHandler<DeleteRecipeTagCommand>, DeleteRecipeTagCommandHandler>()
+                .AddTransient<ICommandHandler<RegisterUserCommand>, RegisterUserCommandHandler>()
                 ;
 
             return services;
@@ -74,6 +77,7 @@ namespace Gible.Domain.DependencyInjection
                     .Register(provider.GetRequiredService<ICommandHandler<ExportSelectedRecipesCommand>>())
                     .Register(provider.GetRequiredService<ICommandHandler<IngestRecipesCommand>>())
                     .Register(provider.GetRequiredService<ICommandHandler<DeleteRecipeTagCommand>>())
+                    .Register(provider.GetRequiredService<ICommandHandler<RegisterUserCommand>>())
 
                     .Register(provider.GetRequiredService<IQueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>>())
                     .Register(provider.GetRequiredService<IQueryHandler<GetFirstUserQuery, Gift<User>>>())

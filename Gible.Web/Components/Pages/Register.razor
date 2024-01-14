@@ -1,13 +1,26 @@
 ﻿@page "/register"
+@using Gible.Domain.Commands
 @using Knox.Mediation
 @using Knox.Security
 @rendermode InteractiveServer
 @inject IMediator mediator
 @inject IKnoxHasher knoxHasher
+@inject NavigationManager navManager
 
 <PageTitle>Register</PageTitle>
 
 <h3>Register as a new user:</h3>
+
+@if(Errored)
+{
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-danger">
+                <p class="m-0">An error has occured: @ErrorMessage</p>
+            </div>
+        </div>
+    </div>
+}
 
 <div class="form-row">
     <div class="col my-2">
@@ -42,14 +55,34 @@
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 
+    public bool Errored { get; private set; } = false;
+    public string ErrorMessage { get; private set; } = string.Empty;
+
     public async Task RegisterUser()
     {
-        // Hash password.
-        var passwordHash = knoxHasher.HashPassword(Password);
+        try
+        {
+            Verify(FirstName, "First name cannot be blank");
+            Verify(LastName, "Last name cannot be blank");
+            Verify(Email, "Email cannot be blank");
+            Verify(Password, "Password cannot be blank");
 
-        // Verify email.
-        var mailAddress = new System.Net.Mail.MailAddress(Email);
+            await mediator.ExecuteCommandAsync(new RegisterUserCommand(FirstName, LastName, Email, Password));
 
-        // Check if that username already exists.
+            navManager.NavigateTo("/");
+        }
+        catch(Exception ex)
+        {
+            Errored = true;
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    private void Verify(string value, string error)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            throw new Exception(error);
+        }
     }
 }
