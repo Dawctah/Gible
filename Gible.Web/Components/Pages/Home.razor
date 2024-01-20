@@ -5,7 +5,8 @@
 @using Gible.Domain.Queries
 @using Knox.Monads
 @using Knox.Extensions
-@inject IMediator mediator
+@inject IMediator Mediator
+@inject IHttpContextAccessor ContextAccessor
 
 <PageTitle>Home</PageTitle>
 
@@ -38,7 +39,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        Recipes = await mediator.RequestResponseAsync<GetAllRecipesQuery, IEnumerable<Recipe>>(new GetAllRecipesQuery());
+        Recipes = (await Mediator.RequestResponseAsync<GetAllRecipesQuery, IEnumerable<Recipe>>(new GetAllRecipesQuery())).OrderBy(recipe => recipe.Name);
     }
 
     public async Task SearchRecipes()
@@ -51,6 +52,6 @@
 
         SearchQuery = string.Empty;
 
-        Recipes = await mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
+        Recipes = await Mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
     }
 }

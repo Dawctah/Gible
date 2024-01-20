@@ -1,5 +1,6 @@
 using Gible.Domain.DependencyInjection;
 using Gible.Web.Components;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Gible.Web
 {
@@ -17,9 +18,24 @@ namespace Gible.Web
 
             builder.Services
                 .InjectAll()
+                .InjectWeb()
                 ;
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/sign-in";
+                    options.LogoutPath = "/sign-out";
+                    options.AccessDeniedPath = "/access-denied";
+                    options.Cookie.Name = "UserAuth";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(2);
+                    options.SlidingExpiration = true;
+                });
+
             var app = builder.Build();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
