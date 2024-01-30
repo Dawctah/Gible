@@ -36,6 +36,24 @@ namespace Gible.UnitTesting.Domain.Queries
         }
 
         [TestMethod]
+        public async Task QueryDisregardsCasing()
+        {
+            var testTag = "Sauce";
+            var enteredTag = testTag.ToUpper();
+            var queriedTag = testTag.ToLower();
+
+            var expected = new List<Recipe>() {
+                Recipe.Default with { Tags = ["Meat", "Tomato", "Pasta", enteredTag] },
+            };
+
+            testRepository.Items.AddRange(expected);
+
+            var result = await underTest.RequestAsync(new RecipesWithTagsQuery([queriedTag]));
+
+            Assert.AreEqual(expected.Count, result.Count());
+        }
+
+        [TestMethod]
         public async Task RecipesWithTagsContainingRequestAreReturned()
         {
             var partialTag = "Potatoes";
