@@ -24,7 +24,22 @@ namespace Gible.UnitTesting.Domain.Queries
             var name = "Pound Cake";
             var recipe = Recipe.Default with { Name = name };
 
+            testRepository.Items.Add(recipe);
+
             var result = await underTest.RequestAsync(new RecipesByNameQuery([name]));
+
+            Assert.IsTrue(result.Any());
+        }
+
+        [TestMethod]
+        public async Task QueryDisregardsCasing()
+        {
+            var name = "Tas-TEA";
+            var recipe = Recipe.Default with { Name = name.ToLower() };
+
+            testRepository.Items.Add(recipe);
+
+            var result = await underTest.RequestAsync(new RecipesByNameQuery([name.ToUpper()]));
 
             Assert.IsTrue(result.Any());
         }
