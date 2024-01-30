@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Gible.Console.Commands
 {
-    public class SearchByTagsConsoleCommand(IQueryHandler<GetRecipesWithTagsQuery, IEnumerable<Recipe>> queryHandler) : IConsoleCommand
+    public class SearchByTagsConsoleCommand(IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>> queryHandler) : IConsoleCommand
     {
         private IEnumerable<Recipe> recipes = Enumerable.Empty<Recipe>();
 

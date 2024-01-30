@@ -51,6 +51,6 @@
 
         SearchQuery = string.Empty;
 
-        Recipes = await mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
+        Recipes = await mediator.RequestResponseAsync<RecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
     }
 }
