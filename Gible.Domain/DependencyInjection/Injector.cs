@@ -59,6 +59,7 @@ namespace Gible.Domain.DependencyInjection
                 .AddTransient<IQueryHandler<GetFirstUserQuery, Gift<User>>, GetFirstUserQueryHandler>()
                 .AddTransient<IQueryHandler<RecipeByKeyQuery, Recipe>, RecipeByKeyQueryHandler>()
                 .AddTransient<IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>, RecipesWithTagsQueryHandler>()
+                .AddTransient<IQueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>, RecipesByNameQueryHandler>()
                 ;
 
             return services;
@@ -79,6 +80,7 @@ namespace Gible.Domain.DependencyInjection
                     .Register(provider.GetRequiredService<IQueryHandler<GetFirstUserQuery, Gift<User>>>())
                     .Register(provider.GetRequiredService<IQueryHandler<RecipeByKeyQuery, Recipe>>())
                     .Register(provider.GetRequiredService<IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>>())
+                    .Register(provider.GetRequiredService<IQueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>>())
                     ;
 
                 return mediator;
