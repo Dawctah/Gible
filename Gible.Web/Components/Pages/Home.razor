@@ -26,6 +26,24 @@
     </div>
 </div>
 
+@if (RecipesByTag.Any())
+{
+    <h2>Recipes with Tags:</h2>
+    @foreach(var recipe in RecipesByTag)
+    {
+        <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
+    }
+}
+
+@if (RecipesByName.Any())
+{
+    <h2>Recipes with that Name:</h2>
+    @foreach(var recipe in RecipesByName)
+    {
+        <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
+    }
+}
+
 @foreach (var recipe in Recipes)
 {
     <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
@@ -35,6 +53,9 @@
 @code{
     public IEnumerable<Recipe> Recipes { get; private set; } = [];
     public string SearchQuery { get; set; } = string.Empty;
+
+    public IEnumerable<Recipe> RecipesByTag { get; private set; } = [];
+    public IEnumerable<Recipe> RecipesByName { get; private set; } = [];
 
     protected async override Task OnInitializedAsync()
     {
@@ -50,7 +71,8 @@
         }
 
         SearchQuery = string.Empty;
-
-        Recipes = await mediator.RequestResponseAsync<RecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
+        
+        RecipesByName = await mediator.RequestResponseAsync<RecipesByNameQuery, IEnumerable<Recipe>>(new RecipesByNameQuery(tags));
+        RecipesByTag = await mediator.RequestResponseAsync<RecipesWithTagsQuery, IEnumerable<Recipe>>(new RecipesWithTagsQuery(tags));
     }
 }
