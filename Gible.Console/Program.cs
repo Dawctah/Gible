@@ -15,7 +15,7 @@ var clientHandler = new MongoClientHandler();
 var recipeRepository = new Repository<Recipe>(clientHandler);
 var userRepository = new Repository<User>(clientHandler);
 var applicationSettings = new ApplicationSettings();
-var searchTagsQueryHandler = new GetRecipesWithTagsQueryHandler(recipeRepository);
+var searchTagsQueryHandler = new RecipesWithTagsQueryHandler(recipeRepository);
 
 var commands = new List<IConsoleCommand>()
 {

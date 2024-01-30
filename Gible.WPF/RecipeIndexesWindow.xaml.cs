@@ -59,7 +59,7 @@ namespace Gible.WPF
 
             await mediator.ExecuteCommandAsync(new AddRecipeTagsCommand(Recipe.Key, user.Key, AddIndexTextBox.Text));
 
-            Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new(recipe.Key));
+            Recipe = await mediator.RequestResponseAsync<RecipeByKeyQuery, Recipe>(new(recipe.Key));
         }
 
         private void AddIndexTextBox_GotFocus(object sender, RoutedEventArgs e)

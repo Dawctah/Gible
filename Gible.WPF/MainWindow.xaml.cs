@@ -75,7 +75,7 @@ namespace Gible.WPF
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             var tags = SearchBoxText.Split(',');
-            var result = await mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
+            var result = await mediator.RequestResponseAsync<RecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
 
             RecipesListBox.ItemsSource = result;
         }

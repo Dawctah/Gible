@@ -19,22 +19,60 @@
 </div>
 <div class="row">
     <div class="col">
-        <InputText class="form-control" @bind-Value="SearchQuery"></InputText>
+        <InputText class="form-control" @bind-Value="SearchQuery" @onkeydown="@Enter"></InputText>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-danger" @onclick="@ClearSearch">Clear</button>
     </div>
     <div class="col-auto">
         <button class="btn btn-outline-primary" @onclick="@SearchRecipes">Search</button>
     </div>
 </div>
 
-@foreach (var recipe in Recipes)
-{
-    <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
-}
+<div class="row">
+    <div class="col">
+        @if (RecipesByTag.Any())
+        {
+            <h2>Recipes with Tags:</h2>
+            @foreach (var recipe in RecipesByTag)
+            {
+                <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
+            }
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @if (RecipesByName.Any())
+        {
+            <h2>Recipes with that Name:</h2>
+            @foreach (var recipe in RecipesByName)
+            {
+                <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
+            }
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h2>All Recipes</h2>
+
+        @foreach (var recipe in Recipes)
+        {
+            <a class="btn btn-link" href="/recipe/@recipe.Key">@recipe.Name</a>
+        }
+    </div>
+</div>
 
 
-@code{
+@code {
     public IEnumerable<Recipe> Recipes { get; private set; } = [];
     public string SearchQuery { get; set; } = string.Empty;
+
+    public IEnumerable<Recipe> RecipesByTag { get; private set; } = [];
+    public IEnumerable<Recipe> RecipesByName { get; private set; } = [];
 
     protected async override Task OnInitializedAsync()
     {
@@ -49,8 +87,22 @@
             tags.Add(tag.Trim());
         }
 
-        SearchQuery = string.Empty;
+        RecipesByName = await mediator.RequestResponseAsync<RecipesByNameQuery, IEnumerable<Recipe>>(new RecipesByNameQuery(tags));
+        RecipesByTag = await mediator.RequestResponseAsync<RecipesWithTagsQuery, IEnumerable<Recipe>>(new RecipesWithTagsQuery(tags));
+    }
 
-        Recipes = await mediator.RequestResponseAsync<GetRecipesWithTagsQuery, IEnumerable<Recipe>>(new(tags));
+    public void ClearSearch()
+    {
+        SearchQuery = string.Empty;
+        RecipesByName = [];
+        RecipesByTag = [];
+    }
+
+    public async Task Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            await SearchRecipes();
+        }
     }
 }

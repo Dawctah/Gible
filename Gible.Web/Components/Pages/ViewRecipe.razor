@@ -105,7 +105,7 @@
 
     private async Task LoadPropertiesAsync()
     {
-        Recipe = await mediator.RequestResponseAsync<GetRecipeByKeyQuery, Recipe>(new GetRecipeByKeyQuery(RecipeKey!));
+        Recipe = await mediator.RequestResponseAsync<RecipeByKeyQuery, Recipe>(new RecipeByKeyQuery(RecipeKey!));
     }
 }
 
