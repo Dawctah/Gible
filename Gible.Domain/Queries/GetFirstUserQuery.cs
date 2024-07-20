@@ -7,8 +7,8 @@ using Knox.Querying;
 namespace Gible.Domain.Queries
 {
     public record GetFirstUserQuery : Query;
-    public class GetFirstUserQueryHandler(IRepository<User> repository) : IQueryHandler<GetFirstUserQuery, Gift<User>>
+    public class GetFirstUserQueryHandler(IRepository<User> repository) : QueryHandler<GetFirstUserQuery, Gift<User>>
     {
-        public Task<Gift<User>> RequestAsync(GetFirstUserQuery query) => Task.FromResult(repository.GetResults().WrapFirst());
+        protected override Task<Gift<User>> InternalRequestAsync(GetFirstUserQuery query) => Task.FromResult(repository.GetResults().WrapFirst());
     }
 }

@@ -1,4 +1,4 @@
-﻿using Knox.Security;
+﻿using Knox.Domain.Security;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Gible.Tech.Mongo

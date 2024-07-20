@@ -6,26 +6,26 @@ using System.Text;
 
 namespace Gible.Console.Commands
 {
-    public class SearchByTagsConsoleCommand(IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>> queryHandler) : IConsoleCommand
+    public class SearchByTagsConsoleCommand(QueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>> queryHandler) : ConsoleCommandHandler
     {
         private IEnumerable<Recipe> recipes = Enumerable.Empty<Recipe>();
 
-        public string CommandDocumentation => $"{CommandName} [TAGS (Separated by a space)]";
+        public override string CommandDocumentation => $"{CommandName} [TAGS (Separated by a space)]";
 
-        public string CommandName => "search";
+        public override string CommandName => "search";
 
-        public async Task ExecuteAsync(ConsoleCommandContext context)
+        public async override Task ExecuteAsync(ConsoleCommand command)
         {
             var tags = new List<string>();
-            for (var index = 1; index < context.Arguments.Length; index++)
+            for (var index = 1; index < command.Arguments.Length; index++)
             {
-                tags.Add(context.Arguments[index]);
+                tags.Add(command.Arguments[index]);
             }
 
             recipes = await queryHandler.RequestAsync(new(tags));
         }
 
-        public string SuccessMessage(ConsoleCommandContext context)
+        public override string SuccessMessage(ConsoleCommand command)
         {
             var result = new StringBuilder($"Found {recipes.Count()} recipes:\n");
 

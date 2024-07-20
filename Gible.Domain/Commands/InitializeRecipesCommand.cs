@@ -1,6 +1,7 @@
 ﻿using Gible.Domain.Models;
 using Gible.Domain.Repositories;
 using Knox.Commanding;
+using Knox.Domain.Extensions;
 using Knox.Extensions;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,14 +9,11 @@ using System.Text.RegularExpressions;
 namespace Gible.Domain.Commands
 {
     public record InitializeRecipesCommand(string Path) : Command;
-    public class InitializeRecipesCommandHandler(IRepository<Recipe> recipeRepository) : ICommandHandler<InitializeRecipesCommand>
+    public class InitializeRecipesCommandHandler(IRepository<Recipe> recipeRepository) : CommandHandler<InitializeRecipesCommand>
     {
-        public Task<bool> CanExecuteAsync(InitializeRecipesCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        protected override Task<bool> InternalCanExecuteAsync(InitializeRecipesCommand command) => true.FromResult();
 
-        public async Task ExecuteAsync(InitializeRecipesCommand command)
+        protected override async Task InternalExecuteAsync(InitializeRecipesCommand command)
         {
             // Find all images in the folder path.
             var filePaths = Directory.GetFiles(command.Path, "*.jpg");

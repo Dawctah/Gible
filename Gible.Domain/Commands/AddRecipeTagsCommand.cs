@@ -8,14 +8,14 @@ namespace Gible.Domain.Commands
     {
         public AddRecipeTagsCommand(string RecipeKey, string UserKey, string tag) : this(RecipeKey, UserKey, new List<string>() { tag }) { }
     }
-    public class UpdateRecipeTagCommandHandler(IRepository<Recipe> recipeRepository) : ICommandHandler<AddRecipeTagsCommand>
+    public class UpdateRecipeTagCommandHandler(IRepository<Recipe> recipeRepository) : CommandHandler<AddRecipeTagsCommand>
     {
-        public Task<bool> CanExecuteAsync(AddRecipeTagsCommand command)
+        protected override Task<bool> InternalCanExecuteAsync(AddRecipeTagsCommand command)
         {
             throw new NotImplementedException();
         }
 
-        public async Task ExecuteAsync(AddRecipeTagsCommand command)
+        protected override async Task InternalExecuteAsync(AddRecipeTagsCommand command)
         {
             var recipe = recipeRepository.GetResult(command.RecipeKey);
 
@@ -24,15 +24,12 @@ namespace Gible.Domain.Commands
             {
                 cleanedTags.Add(tag.Trim());
             }
-            // var userName = new List<string>() { userRepository.GetResult(command.UserKey).Name };
 
             var tags = recipe.Tags.Union(cleanedTags);
-            // var contributors = recipe.Contributors.Union(userName);
 
             var updatedRecipe = recipe with
             {
                 Tags = tags,
-                // Contributors = contributors,
             };
 
             await recipeRepository.UpdateAsync(updatedRecipe);

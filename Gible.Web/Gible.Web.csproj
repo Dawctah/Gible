@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Knox.Domain" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Gible.Domain\Gible.Domain.csproj" />
     <ProjectReference Include="..\Gible.Tech\Gible.Tech.csproj" />
   </ItemGroup>

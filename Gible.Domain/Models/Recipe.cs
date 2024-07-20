@@ -1,5 +1,5 @@
 ﻿using Gible.Tech.Mongo;
-using Knox.Security;
+using Knox.Domain.Security;
 
 namespace Gible.Domain.Models
 {

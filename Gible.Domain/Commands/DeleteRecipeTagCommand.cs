@@ -5,14 +5,14 @@ using Knox.Commanding;
 namespace Gible.Domain.Commands
 {
     public record DeleteRecipeTagCommand(string RecipeKey, string Tag) : Command;
-    public class DeleteRecipeTagCommandHandler(IRepository<Recipe> repository) : ICommandHandler<DeleteRecipeTagCommand>
+    public class DeleteRecipeTagCommandHandler(IRepository<Recipe> repository) : CommandHandler<DeleteRecipeTagCommand>
     {
-        public Task<bool> CanExecuteAsync(DeleteRecipeTagCommand command)
+        protected override Task<bool> InternalCanExecuteAsync(DeleteRecipeTagCommand command)
         {
             throw new NotImplementedException();
         }
 
-        public async Task ExecuteAsync(DeleteRecipeTagCommand command)
+        protected override async Task InternalExecuteAsync(DeleteRecipeTagCommand command)
         {
             var recipe = repository.GetResult(command.RecipeKey);
 

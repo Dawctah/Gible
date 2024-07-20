@@ -17,7 +17,7 @@ var userRepository = new Repository<User>(clientHandler);
 var applicationSettings = new ApplicationSettings();
 var searchTagsQueryHandler = new RecipesWithTagsQueryHandler(recipeRepository);
 
-var commands = new List<IConsoleCommand>()
+var commands = new List<ConsoleCommandHandler>()
 {
     new InitializeRecipesConsoleCommand(new InitializeRecipesCommandHandler(recipeRepository), applicationSettings),
     new UpdateRecipeTagConsoleCommand(new UpdateRecipeTagCommandHandler(recipeRepository), recipeRepository, userRepository),
@@ -51,7 +51,7 @@ while (running)
                 {
                     if (first == command.CommandName)
                     {
-                        var context = new ConsoleCommandContext(input);
+                        var context = new ConsoleCommand(input);
                         await command.ExecuteAsync(context);
 
                         WriteSuccess($"{command.SuccessMessage(context)}");

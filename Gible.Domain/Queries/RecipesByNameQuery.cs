@@ -5,9 +5,9 @@ using Knox.Querying;
 namespace Gible.Domain.Queries
 {
     public record RecipesByNameQuery(IEnumerable<string> Strings) : Query;
-    public class RecipesByNameQueryHandler(IRepository<Recipe> recipeRepository) : IQueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>
+    public class RecipesByNameQueryHandler(IRepository<Recipe> recipeRepository) : QueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>
     {
-        public Task<IEnumerable<Recipe>> RequestAsync(RecipesByNameQuery query)
+        protected override Task<IEnumerable<Recipe>> InternalRequestAsync(RecipesByNameQuery query)
         {
             var recipes = recipeRepository.GetResults()
                 .Where(recipe => query.Strings

@@ -5,8 +5,8 @@ using Knox.Querying;
 namespace Gible.Domain.Queries
 {
     public record RecipeByKeyQuery(string RecipeKey) : Query;
-    public class RecipeByKeyQueryHandler(IRepository<Recipe> recipeRepository) : IQueryHandler<RecipeByKeyQuery, Recipe>
+    public class RecipeByKeyQueryHandler(IRepository<Recipe> recipeRepository) : QueryHandler<RecipeByKeyQuery, Recipe>
     {
-        public Task<Recipe> RequestAsync(RecipeByKeyQuery query) => Task.FromResult(recipeRepository.GetResult(query.RecipeKey));
+        protected override Task<Recipe> InternalRequestAsync(RecipeByKeyQuery query) => Task.FromResult(recipeRepository.GetResult(query.RecipeKey));
     }
 }

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Knox" Version="1.1.0" />
+    <PackageReference Include="Knox.Domain" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

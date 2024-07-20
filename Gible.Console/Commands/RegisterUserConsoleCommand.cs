@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Gible.Console.Commands
 {
-    public class RegisterUserConsoleCommand(IRepository<User> userRepository) : IConsoleCommand
+    public class RegisterUserConsoleCommand(IRepository<User> userRepository) : ConsoleCommandHandler
     {
-        public string CommandDocumentation => $"{CommandName} [NAME]";
+        public override string CommandDocumentation => $"{CommandName} [NAME]";
 
-        public string CommandName => "register";
+        public override string CommandName => "register";
 
-        public async Task ExecuteAsync(ConsoleCommandContext context)
+        public async override Task ExecuteAsync(ConsoleCommand command)
         {
             var name = new StringBuilder();
-            for (var index = 1; index < context.Arguments.Length; index++)
+            for (var index = 1; index < command.Arguments.Length; index++)
             {
-                name.Append($"{context.Arguments[index]} ");
+                name.Append($"{command.Arguments[index]} ");
             }
 
             var user = User.Default with
@@ -27,6 +27,6 @@ namespace Gible.Console.Commands
             await userRepository.InsertAsync(user);
         }
 
-        public string SuccessMessage(ConsoleCommandContext context) => "Registered user";
+        public override string SuccessMessage(ConsoleCommand command) => "Registered user";
     }
 }

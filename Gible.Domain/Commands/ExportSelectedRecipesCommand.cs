@@ -5,14 +5,14 @@ using Knox.Commanding;
 namespace Gible.Domain.Commands
 {
     public record ExportSelectedRecipesCommand(string FileName, IEnumerable<string> FilePaths) : Command;
-    public class ExportSelectedRecipesCommandHandler(IPdfExporter pdfExporter, IApplicationSettings applicationSettings) : ICommandHandler<ExportSelectedRecipesCommand>
+    public class ExportSelectedRecipesCommandHandler(IPdfExporter pdfExporter, IApplicationSettings applicationSettings) : CommandHandler<ExportSelectedRecipesCommand>
     {
-        public Task<bool> CanExecuteAsync(ExportSelectedRecipesCommand command)
+        protected override Task<bool> InternalCanExecuteAsync(ExportSelectedRecipesCommand command)
         {
             throw new NotImplementedException();
         }
 
-        public Task ExecuteAsync(ExportSelectedRecipesCommand command)
+        protected override Task InternalExecuteAsync(ExportSelectedRecipesCommand command)
         {
             pdfExporter.ExportPdf(applicationSettings.BaseDirectory, command.FileName, command.FilePaths);
             return Task.CompletedTask;

@@ -8,15 +8,15 @@ using System.Text.RegularExpressions;
 namespace Gible.Domain.Commands
 {
     public record IngestRecipesCommand(string InputDirectory, string OutputDirectory) : Command;
-    public class InjestRecipesCommandHandler(IRepository<Recipe> recipeRepository) : ICommandHandler<IngestRecipesCommand>
+    public class InjestRecipesCommandHandler(IRepository<Recipe> recipeRepository) : CommandHandler<IngestRecipesCommand>
     {
         private record FileInformation(string PrimaryLocation, string RecipeTitle, string NewDirectory);
-        public Task<bool> CanExecuteAsync(IngestRecipesCommand command)
+        protected override Task<bool> InternalCanExecuteAsync(IngestRecipesCommand command)
         {
             throw new NotImplementedException();
         }
 
-        public async Task ExecuteAsync(IngestRecipesCommand command)
+        protected override async Task InternalExecuteAsync(IngestRecipesCommand command)
         {
             // Get the recipes based off the images in the ingest folder.
             var filePaths = Directory.GetFiles(command.InputDirectory, "*.jpg");

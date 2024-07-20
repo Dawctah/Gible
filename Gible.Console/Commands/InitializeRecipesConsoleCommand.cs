@@ -4,17 +4,17 @@ using Knox.ConsoleCommanding;
 
 namespace Gible.Console.Commands
 {
-    public class InitializeRecipesConsoleCommand(InitializeRecipesCommandHandler initializeRecipesCommand, IApplicationSettings applicationSettings) : IConsoleCommand
+    public class InitializeRecipesConsoleCommand(InitializeRecipesCommandHandler initializeRecipesCommand, IApplicationSettings applicationSettings) : ConsoleCommandHandler
     {
-        public string CommandDocumentation => CommandName;
+        public override string CommandDocumentation => CommandName;
 
-        public string CommandName => "initialize";
+        public override string CommandName => "initialize";
 
-        public async Task ExecuteAsync(ConsoleCommandContext context)
+        public async override Task ExecuteAsync(ConsoleCommand command)
         {
             await initializeRecipesCommand.ExecuteAsync(new InitializeRecipesCommand(applicationSettings.BaseDirectory));
         }
 
-        public string SuccessMessage(ConsoleCommandContext context) => "Successfully initialized recipes.";
+        public override string SuccessMessage(ConsoleCommand command) => "Successfully initialized recipes.";
     }
 }

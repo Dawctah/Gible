@@ -43,10 +43,10 @@ namespace Gible.Domain.DependencyInjection
         public static IServiceCollection InjectCommands(this IServiceCollection services)
         {
             services
-                .AddTransient<ICommandHandler<AddRecipeTagsCommand>, UpdateRecipeTagCommandHandler>()
-                .AddTransient<ICommandHandler<ExportSelectedRecipesCommand>, ExportSelectedRecipesCommandHandler>()
-                .AddTransient<ICommandHandler<IngestRecipesCommand>, InjestRecipesCommandHandler>()
-                .AddTransient<ICommandHandler<DeleteRecipeTagCommand>, DeleteRecipeTagCommandHandler>()
+                .AddTransient<CommandHandler<AddRecipeTagsCommand>, UpdateRecipeTagCommandHandler>()
+                .AddTransient<CommandHandler<ExportSelectedRecipesCommand>, ExportSelectedRecipesCommandHandler>()
+                .AddTransient<CommandHandler<IngestRecipesCommand>, InjestRecipesCommandHandler>()
+                .AddTransient<CommandHandler<DeleteRecipeTagCommand>, DeleteRecipeTagCommandHandler>()
                 ;
 
             return services;
@@ -55,11 +55,11 @@ namespace Gible.Domain.DependencyInjection
         public static IServiceCollection InjectQueries(this IServiceCollection services)
         {
             services
-                .AddTransient<IQueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>, GetAllRecipesQueryHandler>()
-                .AddTransient<IQueryHandler<GetFirstUserQuery, Gift<User>>, GetFirstUserQueryHandler>()
-                .AddTransient<IQueryHandler<RecipeByKeyQuery, Recipe>, RecipeByKeyQueryHandler>()
-                .AddTransient<IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>, RecipesWithTagsQueryHandler>()
-                .AddTransient<IQueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>, RecipesByNameQueryHandler>()
+                .AddTransient<QueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>, GetAllRecipesQueryHandler>()
+                .AddTransient<QueryHandler<GetFirstUserQuery, Gift<User>>, GetFirstUserQueryHandler>()
+                .AddTransient<QueryHandler<RecipeByKeyQuery, Recipe>, RecipeByKeyQueryHandler>()
+                .AddTransient<QueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>, RecipesWithTagsQueryHandler>()
+                .AddTransient<QueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>, RecipesByNameQueryHandler>()
                 ;
 
             return services;
@@ -71,16 +71,16 @@ namespace Gible.Domain.DependencyInjection
             {
                 var mediator = new Mediator();
                 mediator
-                    .Register(provider.GetRequiredService<ICommandHandler<AddRecipeTagsCommand>>())
-                    .Register(provider.GetRequiredService<ICommandHandler<ExportSelectedRecipesCommand>>())
-                    .Register(provider.GetRequiredService<ICommandHandler<IngestRecipesCommand>>())
-                    .Register(provider.GetRequiredService<ICommandHandler<DeleteRecipeTagCommand>>())
+                    .Register(provider.GetRequiredService<CommandHandler<AddRecipeTagsCommand>>())
+                    .Register(provider.GetRequiredService<CommandHandler<ExportSelectedRecipesCommand>>())
+                    .Register(provider.GetRequiredService<CommandHandler<IngestRecipesCommand>>())
+                    .Register(provider.GetRequiredService<CommandHandler<DeleteRecipeTagCommand>>())
 
-                    .Register(provider.GetRequiredService<IQueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>>())
-                    .Register(provider.GetRequiredService<IQueryHandler<GetFirstUserQuery, Gift<User>>>())
-                    .Register(provider.GetRequiredService<IQueryHandler<RecipeByKeyQuery, Recipe>>())
-                    .Register(provider.GetRequiredService<IQueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>>())
-                    .Register(provider.GetRequiredService<IQueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>>())
+                    .Register(provider.GetRequiredService<QueryHandler<GetAllRecipesQuery, IEnumerable<Recipe>>>())
+                    .Register(provider.GetRequiredService<QueryHandler<GetFirstUserQuery, Gift<User>>>())
+                    .Register(provider.GetRequiredService<QueryHandler<RecipeByKeyQuery, Recipe>>())
+                    .Register(provider.GetRequiredService<QueryHandler<RecipesWithTagsQuery, IEnumerable<Recipe>>>())
+                    .Register(provider.GetRequiredService<QueryHandler<RecipesByNameQuery, IEnumerable<Recipe>>>())
                     ;
 
                 return mediator;
